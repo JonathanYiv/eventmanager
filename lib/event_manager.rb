@@ -1,6 +1,7 @@
 require "csv"
 require 'sunlight/congress'
 require 'erb'
+require 'date'
 
 Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
 
@@ -34,15 +35,26 @@ def clean_phone_number(phone_number)
 	phone_number
 end
 
+def clean_time(time)
+	format = "%m/%d/%y %H:%M"
+	DateTime.strptime(time, format)
+end
 
 template_letter = File.read "form_letter.erb"
 erb_template = ERB.new template_letter
+
+hours = []
+days = []
 
 contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
 contents.each do |row|
 	id = row[0]
 	name = row[:first_name]
 	phone_number = clean_phone_number(row[:homephone])
+	hour = clean_time(row[:regdate]).hour
+	hours.push(hour)
+	day = clean_time(row[:regdate]).wday
+	days.push(day)
 
 	zipcode = clean_zipcode(row[:zipcode])
 
@@ -52,6 +64,11 @@ contents.each do |row|
 
 	save_thank_you_letters(id, form_letter)
 
-	puts "#{name} #{phone_number}"
+	puts "#{name} #{phone_number} #{hour}"
 end
 
+frequency = hours.inject(Hash.new(0)) { |freq, hour| freq[hour] += 1; freq }
+puts frequency
+
+frequency_of_days = days.inject(Hash.new(0)) { |freq, day| freq[day] += 1; freq }
+puts frequency_of_days
