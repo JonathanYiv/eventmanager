@@ -2,10 +2,6 @@
 
 This is a project that is part of [The Odin Project](https://www.theodinproject.com/courses/ruby-programming/lessons/file-i-o-and-serialization) created by [Jumpstart Lab](http://tutorials.jumpstartlab.com/projects/eventmanager.html)
 
-## Installation
-
-The project is currently incomplete.
-
 ## Pre-Project Thoughts
 
 This project is primarily a walk-through, so it should be straightforward.
@@ -22,4 +18,6 @@ The learning goals are to be able to:
 
 ## Post-Project Thoughts
 
-The project is currently incomplete.
+1. One interesting concept from the project: "Look for a Solution before Building a Solution." Considering the Open Source Community and Ruby's ecosystem, I fully agree with this. It essentially is another way to say: "Don't reinvent the wheel." However, you have to consider the pros/cons, where the 'pro' is the ease of use, but the 'con' is learning how the solution was implemented.
+
+2. The magic of how APIs work has been dispelled from my system. I now understand the mechanics.
