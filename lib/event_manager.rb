@@ -24,6 +24,17 @@ def save_thank_you_letters(id, form_letter)
 	end
 end
 
+def clean_phone_number(phone_number)
+	phone_number.delete!('-(). ')
+	phone_number[0] = '' if phone_number[0] == "1" && phone_number.length == 11
+
+	if phone_number.length != 10
+		phone_number = "(000) 000-0000"
+	end
+	phone_number
+end
+
+
 template_letter = File.read "form_letter.erb"
 erb_template = ERB.new template_letter
 
@@ -31,6 +42,7 @@ contents = CSV.open "event_attendees.csv", headers: true, header_converters: :sy
 contents.each do |row|
 	id = row[0]
 	name = row[:first_name]
+	phone_number = clean_phone_number(row[:homephone])
 
 	zipcode = clean_zipcode(row[:zipcode])
 
@@ -39,4 +51,7 @@ contents.each do |row|
 	form_letter = erb_template.result(binding) # the result and binding parts are still a bit ambiguous to me
 
 	save_thank_you_letters(id, form_letter)
+
+	puts "#{name} #{phone_number}"
 end
+
